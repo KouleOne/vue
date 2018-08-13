@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue初学者</title>
+</head>
+<body>
+<div id="app">
+    <h1 id="h1">{{message}}</h1>
+    <h2>回调函数：{{fuc()}}</h2>
+
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+    </tr>
+    </thead>
+    <tbody id="list" >
+    <tr v-for="site in list">
+        <td>{{site.name}}</td>
+        <td v-if="site.sex == '1'">男</td>
+        <td v-if="site.sex == '0'">女</td>
+        <td>{{site.age}}</td>
+    </tr>
+    </tbody>
+</table>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/vue.min.js"></script>
+<script>
+    var myVue = new Vue({
+        el:'#app',
+        data:{
+            message:"Hello PC!",
+        },
+        methods:{
+            fuc: function () {
+                return "写入函数回调";
+            },
+            ajaxFuc: function (re) {
+                $.ajax({
+                    url:'../json/person.json',
+                    type:"get",
+                    success: function (data) {
+                        ajaxVue.list=  data.list;
+//                        var html='',sex='';
+//                        for (var i = 0; i < data.list.length; i++) {
+//                            var obj = data.list[i];
+//                            if(obj.sex=="1"){
+//                                sex="男";
+//                            }else if(obj.sex=="0"){
+//                                sex="女";
+//                            }
+//                            html+=' <tr>'+
+//                                    '<td>'+obj.name+'</td>'+
+//                                    '<td>'+sex+'</td>'+
+//                                    '<td>'+obj.age+'</td>'+
+//                                    '</tr>'
+//                        }
+//                        $("#list").html(html);
+                    }
+                });
+            }
+        }
+    });
+    var ajaxVue = new Vue({
+        el:'#list',
+        data:{
+            list:''
+        }
+    });
+    myVue.ajaxFuc();
+</script>
+</body>
+</html>
